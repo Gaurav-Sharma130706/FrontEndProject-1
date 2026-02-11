@@ -1,6 +1,6 @@
 import React , {useId} from "react";
 
-const Input = React.forwardRef(function Input({
+const Input = React.forwardRef(function Input({       //forwardRef ko use karke apan ek aisa bhi code likh sakte hain aur ek aur tarika jesa apan code likhte aaye hain usme agar use karna ho forwardRef toh write code like that done in Select.jsx
     label,
     type="text",
     className="",
