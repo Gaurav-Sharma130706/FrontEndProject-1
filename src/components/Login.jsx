@@ -77,10 +77,7 @@ function Login(){
                 type= "password"
                 {...register("password",{
                     required:true,
-                    validate:{
-                        matchPatern:(value)=> /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value) ||
-                            "password should have At least 8 characters, At least 1 lowercase letter, At least 1 uppercase letter ,At least 1 digit, At least 1 special character"
-                    }
+                     
                 })}/>
 
                 <Button type="submit" className="w-full">Sign In</Button>
