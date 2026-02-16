@@ -39,16 +39,16 @@ function Header(){
 
 
     return(
-        <header className="py-3 shadow bg-gray-500">
+        <header className="py-3 shadow bg-gray-500 ">
             <Container>
-                <nav className="flex">
-                    <div className="mr-4">
+                <nav className="flex" style={{alignItems: 'center', justifyContent: "space-between"}}>
+                    <div className="mr-4" style={{display: 'flex', alignItems: 'center'}}>
                         <Link to=''>
                         <Logo width="70px"/>
                         </Link>
                     </div>
 
-                    <ul className="flex ml-auto">
+                    <ul className="flex ml-auto" style={{alignItems: 'center', margin: 0, padding: 0}}>
 
                         {navItems.map((item)=>(
                             item.active? (
