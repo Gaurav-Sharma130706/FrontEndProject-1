@@ -25,14 +25,14 @@ function App() {
 
   if(!loading){
     return(
-    <div className='min-h-screen flex flex-wrap content-between bg-gray-400'>
-      <div className='w-full block'>
-        <Header></Header>
-        <main>
-          <Outlet/>
-        </main>
-        <Footer></Footer>
-      </div>
+    <div className='app-wrapper'>      
+      <div className='app-content'>    
+        <Header />
+        <main>                         
+          <Outlet />
+        </main>                        
+      </div>                           
+      <Footer />
     </div>
     )
   }
