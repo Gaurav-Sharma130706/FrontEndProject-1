@@ -13,7 +13,7 @@ export default function Post() {
 
     const userData = useSelector((state) => state.auth.userData);
 
-    const isAuthor = post && userData ? post.userId === userData.$id : false;
+    const isAuthor = post && userData ? post.userID === userData.$id : false;
 
     useEffect(() => {
         if (slug) {
@@ -32,7 +32,8 @@ export default function Post() {
             }
         });
     };
-
+    console.log("Post User ID:", post?.userID);
+console.log("Logged In User ID:", userData?.$id);
     return post ? (
         <div className="py-8">
             <Container>
