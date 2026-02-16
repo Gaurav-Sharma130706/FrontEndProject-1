@@ -57,6 +57,7 @@ function Login(){
             <div className="space-y-5">
 
                 {/* input field for our Email in our form now we have to do repetative work to make input for password ,etc*/}
+                {/*yeh register bhi react hook form se aaya hai and ... use karna is important kyunki agar aap kisi aur Input mai bhi register use karte ho toh uski value overwrite ho jayegi , register mai (email) daal nai ka matlab this input is for Email*/}
                 <Input 
                 label='Email: '
                 placeholder="Enter your Email"
@@ -67,7 +68,7 @@ function Login(){
                         matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||"Email address must be valid"
                                                 /*It is the regex for email validation if the value provided matches it it is accepted otherwise msg displayed */
                     }
-                })}>   {/*yeh register bhi react hook form se aaya hai and ... use karna is important kyunki agar aap kisi aur Input mai bhi register use karte ho toh uski value overwrite ho jayegi , register mai (email) daal nai ka matlab this input is for Email*/}
+                })}>   
                 
                 </Input>
 

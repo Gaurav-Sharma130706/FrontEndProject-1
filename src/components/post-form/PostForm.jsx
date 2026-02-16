@@ -16,38 +16,47 @@ function PostForm({post}){   //watch provides you ability to continiusly watch a
     })
 
     const navigate= useNavigate()
-    const userData= useSelector(state=> state.user.userData)
+    const userData= useSelector(state=> state.auth.userData)
 
     const submit= async(data) =>{
-        if(post){   //Matlab user koi already existing post mai changes kar raha hai
-            const file= data.image[0] ? appwriteService.uploadFile(data.image[0]) : null //agar data mai image bhi aayi hai toh upload it on appwrite
-
-            if(file){    //If previous step mai koi file upload hui hai toh delete the previous image
-                appwriteService.deleteFile(post.featuredImage)
-            }
-                                                //Kyunki apne update post method ko 1st argumnet slug chaiye thi and slug apni uss post ki ID hi hoti hai
-            const dbPost= await appwriteService.updatePost(post.$id,{...data,featuredImage: file? file.$id: undefined})
-
-            if(dbPost){
-                navigate(`/post/${dbPost.$id}`)
-            }
-        }
-
-        else{   //Matlab nayi post hi hai and not updating already existing one
-            const file= await appwriteService(data.image[0])
-
-            if(file){
-                const fileId= file.$id 
-                data.featuredImage= fileId
-                const dbPost=await appwriteService.createPost({
-                    ...data,
-                    userID: userData.$id      //Since jabb bhi apan koi form submit karenge toh uske pass user id nhi hogi but in post we need it
-                })
-
+        
+        try {
+            if(post){   //Matlab user koi already existing post mai changes kar raha hai
+                const file= data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null //agar data mai image bhi aayi hai toh upload it on appwrite
+                console.log("Uploaded file:", file)
+    
+                if(file){    //If previous step mai koi file upload hui hai toh delete the previous image
+                    await appwriteService.deleteFile(post.featuredImage)
+                }
+                                                    //Kyunki apne update post method ko 1st argumnet slug chaiye thi and slug apni uss post ki ID hi hoti hai
+                const dbPost= await appwriteService.updatePost(post.$id,{...data,featuredImage: file? file.$id: post.featuredImage})
+    
                 if(dbPost){
                     navigate(`/post/${dbPost.$id}`)
                 }
             }
+            
+            else{   //Matlab nayi post hi hai and not updating already existing one
+                 
+                 const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
+                 console.log(file)
+    
+                if(file){
+                    const fileId= file.$id 
+                    data.featuredImage= fileId
+                    const dbPost=await appwriteService.createPost({
+                        ...data,
+                        userID: userData.$id      //Since jabb bhi apan koi form submit karenge toh uske pass user id nhi hogi but in post we need it
+                    })
+    
+                    if(dbPost){
+                        navigate(`/post/${dbPost.$id}`)
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Error submitting form:", error)
+            alert("Failed to submit post. Please try again.")
         }
     }
 
@@ -56,7 +65,7 @@ function PostForm({post}){   //watch provides you ability to continiusly watch a
             return value
             .trim()
             .toLowerCase()
-            .replace(/^[a-zA-Z\d\s]+/g,'-')  //regex to replace anything other than alphabets, numbers and space by '-'
+            .replace(/[^a-zA-Z\d\s]/g, '-') //regex to replace anything other than alphabets, numbers and space by '-'
             .replace(/\s/g,'-')
         }
 
@@ -75,6 +84,8 @@ function PostForm({post}){   //watch provides you ability to continiusly watch a
         }
 
     },[watch, slugTransform,setValue])
+
+    console.log("Featured Image from DB:", post?.featuredImage);
 
     return(
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
@@ -104,14 +115,18 @@ function PostForm({post}){   //watch provides you ability to continiusly watch a
                     accept="image/png, image/jpg, image/jpeg, image/gif"
                     {...register("image", { required: !post })}
                 />
-                {post && (
-                    <div className="w-full mb-4">
-                        <img
-                            src={appwriteService.getFilePreview(post.featuredImage)}
-                            alt={post.title}
-                            className="rounded-lg"
-                        />
-                    </div>
+                {post && post.featuredImage && (  // ✅ Check if featuredImage exists
+                <div className="w-full mb-4">
+                <img
+                    src={appwriteService.getFilePreview(post.featuredImage)}
+                    alt={post.title}
+                    className="rounded-lg"
+                    onError={(e) => {  // ✅ Added error handler
+                    console.error("Image failed to load:", post.featuredImage)
+                    e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found'
+                }}
+                />
+                </div>
                 )}
                 <Select
                     options={["active", "inactive"]}

@@ -1,5 +1,5 @@
 import React from "react";
-import{Continer,Logo,LogoutBtn} from '../index'
+import{Container,Logo,LogoutBtn} from '../index'
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +23,7 @@ function Header(){
         {
             name:'Signup',
             slug:'/signup',
-            active: authStatus
+            active: !authStatus
         },
         {
             name:"All Posts",
@@ -40,7 +40,7 @@ function Header(){
 
     return(
         <header className="py-3 shadow bg-gray-500">
-            <Continer>
+            <Container>
                 <nav className="flex">
                     <div className="mr-4">
                         <Link to=''>
@@ -64,7 +64,7 @@ function Header(){
                            )}   {/*iska matlab hai agar authStatus true hoga than the code inside parenthesis will be executed */}
                     </ul>
                 </nav>
-            </Continer>
+            </Container>
         </header>
     )
 }

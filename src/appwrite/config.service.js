@@ -126,7 +126,7 @@ export class Service{
         return this.bucket.getFilePreview(
             config.appwriteBucketID,
             fileID
-        )
+        ).href   //we added this href to get a string as result
     }
 
 }

@@ -12,6 +12,7 @@ export default function RTE({name,control,label,defaultValue=""}){  //yeh 'contr
             control={control}                //yeh jo control hai vo dega parent element
             render={({field: {onChange}})=>(   //Render this when there is change in field
                 <Editor
+                    apiKey='bx5op9eldwnghzfcu5p6qgyk5dk9081lgm9dlrcui4b2gjo9'
                     initialValue={defaultValue}
                     init={{
                     initialValue: defaultValue,
