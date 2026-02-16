@@ -122,12 +122,12 @@ export class Service{
         }
     }
 
-    getFilePreview(fileID){
-        return this.bucket.getFilePreview(
-            config.appwriteBucketID,
-            fileID
-        ).href   //we added this href to get a string as result
-    }
+getFilePreview(fileID){
+    return this.bucket.getFileView(
+        config.appwriteBucketID,
+        fileID
+    )
+}
 
 }
 

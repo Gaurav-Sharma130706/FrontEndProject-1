@@ -85,7 +85,7 @@ function PostForm({post}){   //watch provides you ability to continiusly watch a
 
     },[watch, slugTransform,setValue])
 
-    console.log("Featured Image from DB:", post?.featuredImage);
+    
 
     return(
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
@@ -113,15 +113,16 @@ function PostForm({post}){   //watch provides you ability to continiusly watch a
                     type="file"
                     className="mb-4"
                     accept="image/png, image/jpg, image/jpeg, image/gif"
-                    {...register("image", { required: !post })}
+                    {...register("image", { required: !post })} 
                 />
-                {post && post.featuredImage && (  // ✅ Check if featuredImage exists
+                {post && (  
                 <div className="w-full mb-4">
                 <img
                     src={appwriteService.getFilePreview(post.featuredImage)}
                     alt={post.title}
                     className="rounded-lg"
-                    onError={(e) => {  // ✅ Added error handler
+                    //Error handling modification 
+                    onError={(e) => {  
                     console.error("Image failed to load:", post.featuredImage)
                     e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found'
                 }}
