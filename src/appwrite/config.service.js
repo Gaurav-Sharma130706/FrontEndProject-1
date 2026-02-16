@@ -122,7 +122,7 @@ export class Service{
         }
     }
 
-getFilePreview(fileID){
+getFilePreview(fileID){       //Debugging that getFilePreview method not works instead used getFileView
     return this.bucket.getFileView(
         config.appwriteBucketID,
         fileID
